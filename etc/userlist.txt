@@ -1,0 +1,1 @@
+"someuser" "same_password_as_in_server"
