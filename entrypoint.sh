@@ -1,8 +1,13 @@
 #!/bin/sh
 
+urldecode() {
+    local url_encoded="${2//+/ }"
+    printf '"%s" "%b"' "${1}" "${url_encoded//%/\\x}"
+}
+
 cd /etc/pgbouncer
 
-echo \""$PG_USER"\" \""$PG_PASSWD"\" > userlist.txt
+urldecode $PG_USER $PG_PASSWD > userlist.txt
 echo "" >> userlist.txt
 
 echo [databases] > pgbouncer.ini
