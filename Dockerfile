@@ -1,13 +1,11 @@
-FROM gliderlabs/alpine:3.3
-
-ADD etc/* /etc/pgbouncer/
+FROM alpine:3.7
 
 RUN \
-  apk --update add autoconf autoconf-doc automake c-ares c-ares-dev curl gcc libc-dev libevent libevent-dev libtool make man openssl-dev pkgconfig && \
-  curl -o  /tmp/pgbouncer-1.7.2.tar.gz -L https://pgbouncer.github.io/downloads/files/1.7.2/pgbouncer-1.7.2.tar.gz && \
+  apk --update add autoconf autoconf-doc automake c-ares c-ares-dev curl gcc libc-dev libevent libevent-dev libtool make man openssl-dev openssl pkgconfig && \
+  curl -o  /tmp/pgbouncer-1.8.1.tar.gz -L https://pgbouncer.github.io/downloads/files/1.8.1/pgbouncer-1.8.1.tar.gz && \
   cd /tmp && \
-  tar xvfz /tmp/pgbouncer-1.7.2.tar.gz && \
-  cd pgbouncer-1.7.2 && \
+  tar xvfz /tmp/pgbouncer-1.8.1.tar.gz && \
+  cd pgbouncer-1.8.1 && \
   ./configure --prefix=/usr && \
   make && \
   cp pgbouncer /usr/bin && \
@@ -18,11 +16,12 @@ RUN \
   rm -rf /tmp/pgbouncer*  && \
   apk del --purge autoconf autoconf-doc automake c-ares-dev curl gcc libc-dev libevent-dev libtool make man openssl-dev pkgconfig
 
-ENV PG_USER=postgres PG_PASSWD=postgres PG_DBNAME=template1 PG_HOST=172.17.0.1 PG_PORT=5432
+ENV PG_USER=postgres PG_PASSWD=mysecretpassword PG_DBNAME=postgres PG_HOST=postgres PG_PORT=5432 LISTEN_PORT=6432 LISTEN_ADDR=0.0.0.0
 
-ADD start.sh /start.sh
+ADD entrypoint.sh /entrypoint.sh
 
 USER pgbouncer
 VOLUME /etc/pgbouncer
+
 EXPOSE 6432
-CMD /start.sh
+CMD /entrypoint.sh

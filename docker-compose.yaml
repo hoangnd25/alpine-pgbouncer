@@ -1,0 +1,18 @@
+version: "2"
+
+services:
+  bouncer:
+    image: hoangnd/pgbouncer
+    links:
+      - "postgres"
+    depends_on:
+      - "postgres"
+    ports:
+      - "6432:6432"
+
+  postgres:
+    image: "postgres:9.6-alpine"
+    volumes:
+        - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
