@@ -12,7 +12,10 @@ echo "" >> userlist.txt
 
 echo [databases] > pgbouncer.ini
 
-echo $PG_DBNAME = host=$PG_HOST port=$PG_PORT auth_user=$PG_USER >> pgbouncer.ini
+export IFS=";"
+for DB_NAME in $PG_DBNAME; do
+    echo $DB_NAME = host=$PG_HOST port=$PG_PORT auth_user=$PG_USER >> pgbouncer.ini
+done
 echo "" >> pgbouncer.ini
 
 echo [pgbouncer] >> pgbouncer.ini
