@@ -22,6 +22,7 @@ echo auth_type = md5 >> pgbouncer.ini
 echo auth_file = /etc/pgbouncer/userlist.txt >> pgbouncer.ini
 echo logfile = /var/log/pgbouncer/pgbouncer.log >> pgbouncer.ini
 echo pidfile = /var/run/pgbouncer/pgbouncer.pid >> pgbouncer.ini
+echo ignore_startup_parameters = extra_float_digits >> pgbouncer.ini
 echo admin_users = "$PG_USER" >> /etc/pgbouncer/pgbouncer.ini
 
 pgbouncer pgbouncer.ini
